@@ -36,7 +36,7 @@ You need to have L<Raku|https://www.raku-lang.ir/en> and L<zef|https://github.co
 
 =begin code :lang<console>
 
-zef install Test::Run:auth<zef:CIAvash>
+zef install 'Test::Run:auth<zef:CIAvash>'
 
 =end code
 
