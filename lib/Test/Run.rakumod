@@ -73,7 +73,7 @@ Test::Run is a module for testing C<STDOUT>, C<STDERR> and C<exitcode> of proces
 #| custom test function to run on C<STDOUT> and/or C<STDERR>.
 #| Then runs 3 tests for C<exitcode>, C<STDERR>, C<STDOUT> in a C<subtest>
 our sub runs_ok (
-    Str $description?, :@args!, :$in, :$out, :$err, Int :$exitcode = 0,
+    Str $description?, :@args!, :$in, :$out, :$err, :$exitcode = 0,
     Bool:D :$bin = False,       #= Whether C<output> is binary(C<Blob>)
     Bool:D :$bin_stdout = $bin, #= Whether C<STDOUT> is binary(C<Blob>)
     Bool:D :$bin_stderr = $bin, #= Whether C<STDERR> is binary(C<Blob>)

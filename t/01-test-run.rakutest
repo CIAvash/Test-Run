@@ -32,7 +32,7 @@ dies-ok { runs_ok :args«abcd -a», 'Simple STDOUT test' }, 'Nonexistent program
 sub test_runs_ok (@args, Str:D $description,
                   :out([$out?, :pass($out_pass) = True]),
                   :err([$err?, :pass($err_pass) = True]),
-                  :exitcode([Int $exitcode = 0, :pass($exitcode_pass) = True]),
+                  :exitcode([$exitcode = 0, :pass($exitcode_pass) = True]),
                   :$in, Bool:D :$bin = False) {
     my ($proc_out, $proc_err, $proc_exitcode) = run_proc_async :$in, :$bin, :@args;
     my ($test_proc_out, $test_proc_err, $) = run_runs_ok :$in, :$bin, @args, :$out, :$err, :$exitcode;
@@ -61,7 +61,7 @@ sub test_runs_ok (@args, Str:D $description,
     }
 }
 
-sub run_runs_ok (@args, :$out, :$err, Int :$exitcode = 0, :$in, Bool:D :$bin = False) {
+sub run_runs_ok (@args, :$out, :$err, :$exitcode = 0, :$in, Bool:D :$bin = False) {
     my Str:D $stdout = $out ?? $out.raku !! $out.^name;
     my Str:D $stderr = $err ?? $err.raku !! $err.^name;
 
