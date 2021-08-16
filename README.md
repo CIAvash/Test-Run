@@ -131,6 +131,21 @@ sub run_proc_async(
 
 Runs process with `Proc::Async`, returns a list of `STDOUT`, `STDERR`, `exitcode`
 
+REPOSITORY
+==========
+
+https://github.com/CIAvash/Sway-Config/
+
+BUG
+===
+
+https://github.com/CIAvash/Sway-Config/issues
+
+AUTHOR
+======
+
+Siavash Askari Nasr - https://www.ciavash.name
+
 COPYRIGHT
 =========
 

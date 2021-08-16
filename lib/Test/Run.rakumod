@@ -152,6 +152,12 @@ our sub run_proc_async (
     $stdout, $stderr, $exitcode;
 }
 
+=REPOSITORY L<https://github.com/CIAvash/Test-Run/>
+
+=BUG L<https://github.com/CIAvash/Test-Run/issues>
+
+=AUTHOR Siavash Askari Nasr - L<https://www.ciavash.name>
+
 =COPYRIGHT Copyright © 2021 Siavash Askari Nasr
 
 =begin LICENSE
