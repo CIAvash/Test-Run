@@ -13,6 +13,14 @@ runs_ok :args«$*EXECUTABLE -e 'put "Hi!"'», :out("Hi!\n"), 'Simple STDOUT test
 # or
 Test::Run::runs_ok :args«$*EXECUTABLE -e 'put "Hi!"'», :out("Hi!\n"), 'Simple STDOUT test with full sub name';
 
+# Smartmatching against a regex
+runs_ok :args«$*EXECUTABLE -I. bin/program -v», :out(/'program-name v' [\d+ %% '.'] ** 3 .+/), 'Prints version';
+
+# Smartmatching against Whatevercode
+runs_ok :args«$*EXECUTABLE -e 'note "some long error message"; exit 1;'»,
+        :err(*.contains('error message')),
+        :exitcode(* > 0);
+
 runs_ok :args«$*EXECUTABLE -»,
         :in('put "Hi!"; note "Bye!"; exit 1'), :out("Hi!\n"), :err("Bye!\n"), :exitcode(1),
         'Output test';
