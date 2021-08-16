@@ -1,0 +1,14 @@
+{
+    "perl": "6.d",
+    "name": "Test::Run",
+    "description": "Test STDOUT, STDERR and exit code of processes. Custom tests and operators can be used for testing output as well.",
+    "authors": ["Siavash Askari Nasr"],
+    "auth": "zef:CIAvash",
+    "version": "0.1.0",
+    "tags": ["Test", "Run", "Proc", "Proc::Async", "Output", "STDOUT", "STDERR", "STDIN"],
+    "license": "LGPL-3.0-or-later",
+    "source-url": "https://github.com/CIAvash/Test-Run.git",
+    "provides": {
+        "Test::Run": "lib/Test/Run.rakumod"
+    }
+}

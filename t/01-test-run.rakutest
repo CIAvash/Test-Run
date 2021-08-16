@@ -1,0 +1,75 @@
+use v6.d;
+
+use Test;
+use Test::Run:auth<zef:CIAvash> :runs_ok, :run_proc_async;
+
+plan 10;
+
+my IO::Path:D $root = $?FILE.IO.parent.parent;
+
+Test::Run::runs_ok :args«$*EXECUTABLE -e 'put "Hi!"'», :out("Hi!\n"), 'Simple STDOUT test with full sub name';
+
+test_runs_ok «$*EXECUTABLE -e 'put "Hi!"'», :out["Hi!\n"], 'Simple STDOUT test';
+
+test_runs_ok «$*EXECUTABLE -e 'note "Error!"'», :err["Error!\n"], 'Simple STDERR test';
+
+test_runs_ok «$*EXECUTABLE -», :in('put "Hello!"'), :out["Hello!\n"], 'Simple STDIN test';
+
+test_runs_ok «$*EXECUTABLE -e 'exit 1'», :exitcode[1], 'Simple exit code test';
+
+test_runs_ok «$*EXECUTABLE -e '$*OUT.write: blob8.new: 3, 6, 254'», :bin, :out[Buf[uint8].new(3,6,254)],
+             'Simple binary STDOUT test';
+
+test_runs_ok «$*EXECUTABLE -e 'put "Hi!"'», :out["Bye!\n", :!pass], 'Wrong STDOUT test';
+
+test_runs_ok «$*EXECUTABLE -e 'put "Hi!"; note "Bye!"'», :out["Hi!\n"], :err["Hello", :!pass], 'Wrong STDERR test';
+
+test_runs_ok «$*EXECUTABLE -e 'put "Hi!"; note "Bye!"; exit 1'»,
+              :out[:!pass], :err[:!pass], :exitcode[:!pass],'Wrong output test';
+
+dies-ok { runs_ok :args«abcd -a», 'Simple STDOUT test' }, 'Nonexistent program should die';
+
+sub test_runs_ok (@args, Str:D $description,
+                  :out([$out?, :pass($out_pass) = True]),
+                  :err([$err?, :pass($err_pass) = True]),
+                  :exitcode([Int $exitcode = 0, :pass($exitcode_pass) = True]),
+                  :$in, Bool:D :$bin = False) {
+    my ($proc_out, $proc_err, $proc_exitcode) = run_proc_async :$in, :$bin, :@args;
+    my ($test_proc_out, $test_proc_err, $) = run_runs_ok :$in, :$bin, @args, :$out, :$err, :$exitcode;
+
+    subtest $description, {
+        plan 3;
+
+        for :$out, :$err, :$exitcode -> (:key($output), :value($expected)) {
+            my ($test, $got, $pass) = do given $output {
+                when 'out'      { 'STDOUT',    $proc_out,      $out_pass      }
+                when 'err'      { 'STDERR',    $proc_err,      $err_pass      }
+                when 'exitcode' { 'Exit code', $proc_exitcode, $exitcode_pass }
+            }
+
+            if $pass {
+                like $test_proc_out, /<!after 'not '> 'ok ' \d+ ' - ' $test/, "Test $test passes correctly";
+            } else {
+                like $test_proc_err,
+                /
+                    "expected: $expected.raku()" .+?
+                    "got: $got.raku()"
+                /,
+                "Test $test fails correctly";
+            }
+        }
+    }
+}
+
+sub run_runs_ok (@args, :$out, :$err, Int :$exitcode = 0, :$in, Bool:D :$bin = False) {
+    my Str:D $stdout = $out ?? $out.raku !! $out.^name;
+    my Str:D $stderr = $err ?? $err.raku !! $err.^name;
+
+    my $test = qq:to/END/;
+    use Test::Run :runs_ok;
+    runs_ok :args(@args.raku()), :in($in.raku()), :bin($bin.raku()),
+            :out($stdout), :err($stderr), :exitcode($exitcode)
+    END
+
+    run_proc_async :args«$*EXECUTABLE -I $root -e "$test"»;
+}
