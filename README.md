@@ -142,12 +142,12 @@ Runs process with `Proc::Async`, returns a list of `STDOUT`, `STDERR`, `exitcode
 REPOSITORY
 ==========
 
-https://github.com/CIAvash/Sway-Config/
+https://github.com/CIAvash/Test-Run/
 
 BUG
 ===
 
-https://github.com/CIAvash/Sway-Config/issues
+https://github.com/CIAvash/Test-Run/issues
 
 AUTHOR
 ======
