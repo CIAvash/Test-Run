@@ -8,6 +8,13 @@ unit module Test::Run:auth($?DISTRIBUTION.meta<auth>):ver($?DISTRIBUTION.meta<ve
 
 =NAME Test::Run - A module for testing output of processes.
 
+=BEGIN DESCRIPTION
+Test::Run is a module for testing C<STDOUT>, C<STDERR> and C<exitcode> of processes.
+
+By default it uses C<cmp-ok> test function with smartmatch operator. But custom operators and test functions
+can be used.
+=END DESCRIPTION
+
 =begin SYNOPSIS
 
 =begin code :lang<raku>
@@ -67,9 +74,6 @@ prove -ve 'raku -I.' --ext rakutest
 =end code
 
 =end TESTING
-
-=DESCRIPTION
-Test::Run is a module for testing C<STDOUT>, C<STDERR> and C<exitcode> of processes.
 
 =head1 SUBS
 

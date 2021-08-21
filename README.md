@@ -3,6 +3,14 @@ NAME
 
 Test::Run - A module for testing output of processes.
 
+DESCRIPTION
+===========
+
+Test::Run is a module for testing `STDOUT`, `STDERR` and `exitcode` of processes.
+
+By default it uses `cmp-ok` test function with smartmatch operator. But custom operators and test functions
+can be used.
+
 SYNOPSIS
 ========
 
@@ -51,11 +59,6 @@ TESTING
 ```console
 prove -ve 'raku -I.' --ext rakutest
 ```
-
-DESCRIPTION
-===========
-
-Test::Run is a module for testing `STDOUT`, `STDERR` and `exitcode` of processes.
 
 SUBS
 ====
