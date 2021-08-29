@@ -94,7 +94,7 @@ our sub runs_ok (
     :$op_stderr is copy = $op,  #= Comparison operator for C<cmp-ok> and C<STDERR>
     :&test_stdout,              #= Custom test function for C<STDOUT>
     :&test_stderr               #= Custom test function for C<STDERR>
-) is export(:runs_ok) {
+) is test-assertion is export(:runs_ok) {
     # my ($proc_out, $proc_err, $proc_exitcode) = run_proc :@args, :$in, :$bin;
     my ($proc_out, $proc_err, $proc_exitcode) = run_proc_async :@args, :$in, :$bin_stdout, :$bin_stderr;
 
